@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>STRAT_ENGINE | Quantitative Intelligence</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed-dim": "#00e639",
+                    "primary-container": "#00ff41",
+                    "outline-variant": "#3b4b37",
+                    "tertiary-container": "#dbdce6",
+                    "background": "#10131a",
+                    "surface-dim": "#10131a",
+                    "on-surface": "#e1e2eb",
+                    "surface-container-lowest": "#0b0e14",
+                    "error": "#ffb4ab",
+                    "on-tertiary": "#2d3038",
+                    "surface-container": "#1d2026",
+                    "on-secondary": "#3c2f00",
+                    "surface-bright": "#363940",
+                    "on-secondary-fixed": "#241a00",
+                    "surface-variant": "#32353c",
+                    "surface-container-high": "#272a31",
+                    "surface": "#10131a",
+                    "tertiary-fixed-dim": "#c4c6d0",
+                    "on-tertiary-container": "#5e6069",
+                    "on-primary-container": "#007117",
+                    "secondary-fixed": "#ffe088",
+                    "primary-fixed": "#72ff70",
+                    "tertiary-fixed": "#e0e2ec",
+                    "on-surface-variant": "#b9ccb2",
+                    "inverse-surface": "#e1e2eb",
+                    "inverse-on-surface": "#2e3037",
+                    "on-background": "#e1e2eb",
+                    "surface-tint": "#00e639",
+                    "surface-container-highest": "#32353c",
+                    "inverse-primary": "#006e16",
+                    "on-primary-fixed": "#002203",
+                    "on-primary-fixed-variant": "#00530e",
+                    "primary": "#ebffe2",
+                    "on-error-container": "#ffdad6",
+                    "secondary-fixed-dim": "#e9c349",
+                    "on-secondary-fixed-variant": "#574500",
+                    "tertiary": "#f9f8ff",
+                    "outline": "#84967e",
+                    "surface-container-low": "#191c22",
+                    "on-tertiary-fixed-variant": "#44474f",
+                    "error-container": "#93000a",
+                    "secondary-container": "#af8d11",
+                    "on-secondary-container": "#342800",
+                    "on-tertiary-fixed": "#191b23",
+                    "secondary": "#e9c349",
+                    "on-primary": "#003907",
+                    "on-error": "#690005"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "stack-lg": "32px",
+                    "section-gap": "120px",
+                    "container-max": "1280px",
+                    "gutter": "24px",
+                    "stack-sm": "8px",
+                    "margin-desktop": "64px",
+                    "margin-mobile": "20px",
+                    "stack-md": "16px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Sora"],
+                    "data-mono": ["IBM Plex Sans"],
+                    "body-md": ["IBM Plex Sans"],
+                    "headline-lg-mobile": ["Sora"],
+                    "headline-lg": ["Sora"],
+                    "display-lg": ["Sora"],
+                    "body-lg": ["IBM Plex Sans"],
+                    "label-sm": ["IBM Plex Sans"]
+            },
+            "fontSize": {
+                    "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                    "data-mono": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                    "headline-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "display-lg": ["72px", {"lineHeight": "80px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0b0e14;
+            color: #e1e2eb;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(16, 19, 26, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            border-color: #00e639;
+            box-shadow: 0 0 30px rgba(0, 230, 57, 0.05);
+        }
+        .glowing-trace {
+            background: linear-gradient(180deg, rgba(0, 230, 57, 0.15) 0%, rgba(0, 230, 57, 0) 100%);
+        }
+        .hero-pattern {
+            background-image: radial-gradient(circle at 2px 2px, rgba(0, 230, 57, 0.05) 1px, transparent 0);
+            background-size: 40px 40px;
+            animation: grid-pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes grid-pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* Sophisticated Entrance Animations */
+        .animate-fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Shimmer Effect for Headline */
+        .headline-shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+        .headline-shimmer::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shimmer 4s infinite 1s;
+        }
+        @keyframes shimmer {
+            0% { left: -100%; }
+            30% { left: 150%; }
+            100% { left: 150%; }
+        }
+
+        /* Glitch Effect for Badge */
+        .glitch-text {
+            animation: glitch 5s infinite;
+        }
+        @keyframes glitch {
+            0%, 90%, 100% { opacity: 1; transform: skew(0); }
+            91% { opacity: 0.8; transform: skew(2deg); filter: contrast(1.5); }
+            92% { opacity: 1; transform: skew(-1deg); }
+            93% { opacity: 0.7; transform: skew(1deg); }
+            94% { opacity: 1; transform: skew(0); }
+        }
+
+        /* Ambient Float for Visualization */
+        .float-visual {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(-50%) translateX(0px); }
+            50% { transform: translateY(-55%) translateX(-10px); }
+        }
+
+        /* Enhanced Button Pulse & Glow */
+        .btn-pulse-glow {
+            box-shadow: 0 0 0 0 rgba(0, 230, 57, 0);
+            animation: subtle-pulse 4s infinite;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-pulse-glow:hover {
+            box-shadow: 0 0 30px 5px rgba(0, 230, 57, 0.4);
+            transform: translateY(-2px);
+        }
+        @keyframes subtle-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 230, 57, 0.1); }
+            70% { box-shadow: 0 0 0 15px rgba(0, 230, 57, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 230, 57, 0); }
+        }
+    </style>
+</head>
+<body class="font-body-md selection:bg-primary-fixed-dim selection:text-on-primary">
+<!-- TopNavBar -->
+<nav class="bg-surface/80 dark:bg-surface/80 backdrop-blur-xl docked full-width top-0 sticky border-b border-white/10 z-50">
+<div class="flex justify-between items-center w-full px-margin-desktop py-stack-md max-w-container-max mx-auto">
+<div class="font-headline-md text-headline-md font-bold tracking-tighter text-on-surface">STRAT_ENGINE</div>
+<div class="hidden md:flex gap-stack-lg items-center">
+<a class="text-primary-fixed-dim font-bold border-b-2 border-primary-fixed-dim pb-1 font-label-sm text-label-sm" href="#">Platform</a>
+<a class="text-on-surface-variant font-medium hover:text-primary-fixed-dim transition-colors duration-300 font-label-sm text-label-sm" href="#">Institutional</a>
+<a class="text-on-surface-variant font-medium hover:text-primary-fixed-dim transition-colors duration-300 font-label-sm text-label-sm" href="#">Research</a>
+<a class="text-on-surface-variant font-medium hover:text-primary-fixed-dim transition-colors duration-300 font-label-sm text-label-sm" href="#">Pricing</a>
+</div>
+<div class="flex gap-stack-md items-center">
+<button class="hidden md:block text-on-surface-variant font-medium hover:text-primary-fixed-dim transition-colors px-stack-md py-2 text-label-sm font-label-sm">Login</button>
+<button class="bg-primary-fixed-dim text-on-primary font-bold px-6 py-2.5 rounded-none hover:scale-95 transition-all duration-300 text-label-sm font-label-sm">Get Started</button>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="relative min-h-[921px] flex items-center overflow-hidden hero-pattern">
+<div class="absolute inset-0 z-0 overflow-hidden">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] opacity-20 pointer-events-none">
+<div class="absolute inset-0 bg-gradient-to-tr from-primary-fixed-dim/10 via-transparent to-transparent"></div>
+</div>
+</div>
+<div class="max-w-container-max mx-auto px-margin-desktop relative z-10 w-full">
+<div class="max-w-3xl">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-surface-container-high border border-white/10 mb-stack-lg glitch-text">
+<span class="w-2 h-2 rounded-full bg-primary-fixed-dim animate-pulse"></span>
+<span class="font-data-mono text-data-mono uppercase tracking-widest text-primary-fixed-dim">Institutional Terminal Active</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-on-surface mb-stack-lg leading-[1.1] animate-fade-in-up headline-shimmer">
+                    The Future of <br/>
+<span class="text-primary-fixed-dim">Quantitative Intelligence</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-section-gap max-w-xl animate-fade-in-up" style="animation-delay: 0.2s;">
+                    Harness the power of institutional-grade algorithmic execution. Neural-driven strategies engineered for the world's most demanding market environments.
+                </p>
+<div class="flex flex-wrap gap-stack-md animate-fade-in-up" style="animation-delay: 0.4s;">
+<button class="bg-primary-fixed-dim text-on-primary font-bold px-10 py-5 text-label-sm font-label-sm flex items-center gap-stack-sm hover:scale-95 transition-transform btn-pulse-glow">
+                        ACCESS THE TERMINAL
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+<button class="border border-secondary-fixed text-secondary-fixed font-bold px-10 py-5 text-label-sm font-label-sm hover:bg-secondary-fixed/5 transition-colors">
+                        VIEW METHODOLOGY
+                    </button>
+</div>
+</div>
+</div>
+<!-- Floating Data Visual -->
+<div class="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 w-1/3 h-96 opacity-60 float-visual">
+<div class="glass-card p-stack-lg w-full h-full rounded-none border-l-primary-fixed-dim border-l-4">
+<div class="flex justify-between items-center mb-stack-lg">
+<span class="font-data-mono text-data-mono text-on-surface-variant">STRAT_LATEST_VOL</span>
+<span class="font-data-mono text-data-mono text-primary-fixed-dim">0.0024ms</span>
+</div>
+<div class="w-full h-48 bg-surface-container-lowest relative overflow-hidden">
+<div class="absolute inset-x-0 bottom-0 h-32 glowing-trace"></div>
+<svg class="absolute bottom-0 w-full h-32" preserveaspectratio="none" viewbox="0 0 100 100">
+<path d="M0,80 Q10,70 20,85 T40,60 T60,75 T80,40 T100,50" fill="none" stroke="#00e639" stroke-width="1"></path>
+</svg>
+</div>
+<div class="grid grid-cols-2 gap-4 mt-stack-md">
+<div class="space-y-1">
+<div class="text-[10px] text-on-tertiary-container font-label-sm uppercase">Alpha Index</div>
+<div class="font-data-mono text-on-surface">1.849,20</div>
+</div>
+<div class="space-y-1">
+<div class="text-[10px] text-on-tertiary-container font-label-sm uppercase">Entropy Gap</div>
+<div class="font-data-mono text-primary-fixed-dim">-0.12%</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Core Capabilities -->
+<section class="py-section-gap bg-surface-container-lowest">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="mb-section-gap text-center max-w-2xl mx-auto">
+<h2 class="font-headline-lg text-headline-lg mb-stack-md">Core Capabilities</h2>
+<div class="h-1 w-20 bg-primary-fixed-dim mx-auto"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-stack-lg">
+<!-- Card 1 -->
+<div class="glass-card p-stack-lg flex flex-col group h-full">
+<div class="mb-section-gap">
+<span class="material-symbols-outlined text-primary-fixed-dim text-4xl mb-stack-md" style="font-variation-settings: 'FILL' 1;">neurology</span>
+<h3 class="font-headline-md text-headline-md mb-stack-sm">Neural SMC Analysis</h3>
+<p class="text-on-surface-variant font-body-md">Advanced Smart Money Concept recognition powered by deep neural networks to identify high-probability institutional footprints.</p>
+</div>
+<div class="mt-auto pt-stack-md border-t border-white/5 flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-primary-fixed-dim">CAPABILITY_01</span>
+<span class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity">add</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="glass-card p-stack-lg flex flex-col group h-full">
+<div class="mb-section-gap">
+<span class="material-symbols-outlined text-primary-fixed-dim text-4xl mb-stack-md" style="font-variation-settings: 'FILL' 1;">dynamic_form</span>
+<h3 class="font-headline-md text-headline-md mb-stack-sm">Dynamic Execution</h3>
+<p class="text-on-surface-variant font-body-md">Multi-timeframe fractal alignment engine that synchronizes entries across micro and macro horizons for optimal R:R.</p>
+</div>
+<div class="mt-auto pt-stack-md border-t border-white/5 flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-primary-fixed-dim">CAPABILITY_02</span>
+<span class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity">add</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="glass-card p-stack-lg flex flex-col group h-full">
+<div class="mb-section-gap">
+<span class="material-symbols-outlined text-primary-fixed-dim text-4xl mb-stack-md" style="font-variation-settings: 'FILL' 1;">public</span>
+<h3 class="font-headline-md text-headline-md mb-stack-sm">Global Macro Engine</h3>
+<p class="text-on-surface-variant font-body-md">Live sentiment tracking and cross-asset correlation analysis processing millions of data points every second.</p>
+</div>
+<div class="mt-auto pt-stack-md border-t border-white/5 flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-primary-fixed-dim">CAPABILITY_03</span>
+<span class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity">add</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Proof Point Section -->
+<section class="py-section-gap relative">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="flex flex-col lg:flex-row items-center gap-section-gap">
+<div class="w-full lg:w-1/2">
+<h2 class="font-headline-lg text-headline-lg mb-stack-lg">Institutional Grade Reliability</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-stack-lg">Our architecture is built on the same foundations as the world's leading high-frequency trading desks. Every microsecond is accounted for.</p>
+<div class="space-y-stack-md">
+<div class="flex items-center gap-stack-md p-stack-md bg-surface-container rounded-none border-l-2 border-primary-fixed-dim">
+<span class="material-symbols-outlined text-primary-fixed-dim">verified</span>
+<span class="font-body-md font-bold">End-to-End Encryption</span>
+</div>
+<div class="flex items-center gap-stack-md p-stack-md bg-surface-container rounded-none border-l-2 border-primary-fixed-dim">
+<span class="material-symbols-outlined text-primary-fixed-dim">speed</span>
+<span class="font-body-md font-bold">Direct Market Access (DMA)</span>
+</div>
+</div>
+</div>
+<div class="w-full lg:w-1/2 grid grid-cols-2 gap-stack-lg">
+<div class="p-stack-lg bg-surface-container-high border border-white/5">
+<div class="text-primary-fixed-dim font-display-lg text-headline-lg mb-2">99.9%</div>
+<div class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant">System Uptime</div>
+</div>
+<div class="p-stack-lg bg-surface-container-high border border-white/5">
+<div class="text-primary-fixed-dim font-display-lg text-headline-lg mb-2">14ms</div>
+<div class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant">Execution Latency</div>
+</div>
+<div class="p-stack-lg bg-surface-container-high border border-white/5">
+<div class="text-primary-fixed-dim font-display-lg text-headline-lg mb-2">0.0</div>
+<div class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant">Slippage Tolerance</div>
+</div>
+<div class="p-stack-lg bg-surface-container-high border border-white/5">
+<div class="text-primary-fixed-dim font-display-lg text-headline-lg mb-2">24/7</div>
+<div class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant">Liquidity Access</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-section-gap relative overflow-hidden">
+<div class="absolute inset-0 bg-primary-fixed-dim/5 z-0"></div>
+<div class="max-w-container-max mx-auto px-margin-desktop relative z-10 text-center">
+<div class="max-w-3xl mx-auto glass-card p-section-gap border-primary-fixed-dim/20">
+<h2 class="font-display-lg text-headline-lg mb-stack-lg text-on-surface leading-tight">Ready to join the 1%?</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-section-gap">Limited slots available for institutional partners and elite retail traders. Apply for access today.</p>
+<div class="flex flex-col md:flex-row gap-stack-md justify-center">
+<input class="bg-surface-container-lowest border-white/10 text-on-surface px-6 py-4 w-full md:w-80 focus:ring-primary-fixed-dim focus:border-primary-fixed-dim outline-none transition-all rounded-none font-label-sm uppercase" placeholder="ENTER WORK EMAIL" type="email"/>
+<button class="bg-primary-fixed-dim text-on-primary font-bold px-12 py-4 hover:scale-105 transition-transform rounded-none whitespace-nowrap">REQUEST ACCESS</button>
+</div>
+<p class="mt-stack-md text-[10px] text-on-tertiary-container uppercase tracking-tighter">By clicking, you agree to our institutional terms of engagement.</p>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-white/5">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-stack-lg px-margin-desktop py-section-gap max-w-container-max mx-auto">
+<div class="col-span-1 md:col-span-1">
+<div class="font-headline-md text-headline-md text-on-surface mb-stack-md">STRAT_ENGINE</div>
+<p class="text-on-tertiary-container font-label-sm text-label-sm leading-relaxed max-w-xs">
+                    Institutional Grade Intelligence for the modern algorithmic trader. Engineered for performance.
+                </p>
+</div>
+<div class="flex flex-col gap-stack-sm">
+<h4 class="font-label-sm text-label-sm text-primary-fixed-dim uppercase mb-2">Platform</h4>
+<a class="text-on-tertiary-container hover:text-primary-container transition-colors font-body-md text-body-md" href="#">Terminal</a>
+<a class="text-on-tertiary-container hover:text-primary-container transition-colors font-body-md text-body-md" href="#">API Docs</a>
+<a class="text-on-tertiary-container hover:text-primary-container transition-colors font-body-md text-body-md" href="#">Research</a>
+</div>
+<div class="flex flex-col gap-stack-sm">
+<h4 class="font-label-sm text-label-sm text-primary-fixed-dim uppercase mb-2">Company</h4>
+<a class="text-on-tertiary-container hover:text-primary-container transition-colors font-body-md text-body-md" href="#">Institutional</a>
+<a class="text-on-tertiary-container hover:text-primary-container transition-colors font-body-md text-body-md" href="#">Pricing</a>
+<a class="text-on-tertiary-container hover:text-primary-container transition-colors font-body-md text-body-md" href="#">Security</a>
+</div>
+<div class="flex flex-col gap-stack-sm">
+<h4 class="font-label-sm text-label-sm text-primary-fixed-dim uppercase mb-2">Legal</h4>
+<a class="text-on-tertiary-container hover:text-primary-container transition-colors font-body-md text-body-md" href="#">Terms</a>
+<a class="text-on-tertiary-container hover:text-primary-container transition-colors font-body-md text-body-md" href="#">Privacy</a>
+</div>
+</div>
+<div class="max-w-container-max mx-auto px-margin-desktop py-stack-md border-t border-white/5 text-center md:text-left">
+<span class="text-on-tertiary-container font-label-sm text-label-sm">© 2024 STRAT_ENGINE. Institutional Grade Intelligence.</span>
+</div>
+</footer>
+<script>
+        // Micro-interaction: Smooth scroll for links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Simple parallax for hero elements
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroText = document.querySelector('h1');
+            if(heroText) {
+                heroText.style.transform = `translateY(${scrolled * 0.15}px)`;
+            }
+        });
+
+        // Data Flicker logic for the status badge
+        const badgeText = document.querySelector('.glitch-text span:last-child');
+        if (badgeText) {
+            setInterval(() => {
+                if (Math.random() > 0.95) {
+                    const originalText = badgeText.innerText;
+                    badgeText.innerText = 'ACCESS_GRANTED_v2.0';
+                    setTimeout(() => {
+                        badgeText.innerText = originalText;
+                    }, 100);
+                }
+            }, 3000);
+        }
+    </script>
+</body></html>
